@@ -87,6 +87,14 @@ def _contact(ctx: ScreenContext, transcript: Transcript | None) -> tuple[str | N
             if last_to:
                 detail += f"; the last logged email ({last_date}) went to {', '.join(last_to)}"
             flags.append(Flag("contact_mismatch", detail + ". Confirm before the next invite."))
+        elif last_to and use not in last_to:
+            flags.append(
+                Flag(
+                    "contact_mismatch",
+                    f"the candidate stated {use} on the call; the last logged email "
+                    f"({last_date}) went to {', '.join(last_to)}. Confirm before the next invite.",
+                )
+            )
     elif len(profile) == 1:
         use, source = profile[0], "profile"
     elif profile and last_to and last_to[0] in profile:

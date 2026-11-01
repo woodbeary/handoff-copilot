@@ -65,10 +65,18 @@ def test_a_person_can_set_roles_by_hand():
         assign_roles(generic, [], overrides={"Speaker 9": CANDIDATE})
 
 
-def test_text_between_joins_overlapping_lines_of_one_role():
+def test_runs_between_joins_consecutive_lines_of_one_role():
     segments = from_notetaker(
         entries(("Cand", "first  part", 0, 2), ("Cand", "second\npart", 2, 4), ("Rec", "q", 4, 5))
     )
     t = Transcript(tuple(segments), {"Cand": CANDIDATE})
-    assert t.text_between(CANDIDATE, 0, 4) == ("first part second part", (0, 1))
-    assert t.text_between(CANDIDATE, 4.5, 5) == ("", ())
+    assert t.runs_between(CANDIDATE, 0, 4) == [("first part second part", (0, 1))]
+    assert t.runs_between(CANDIDATE, 4.5, 5) == []
+
+
+def test_another_speakers_turn_breaks_the_run():
+    segments = from_notetaker(
+        entries(("Cand", "first answer", 0, 2), ("Rec", "q", 2, 3), ("Cand", "second", 3, 4))
+    )
+    t = Transcript(tuple(segments), {"Cand": CANDIDATE})
+    assert t.runs_between(CANDIDATE, 0, 4) == [("first answer", (0,)), ("second", (2,))]

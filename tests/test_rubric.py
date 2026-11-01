@@ -47,6 +47,19 @@ def test_signals_cannot_touch_protected_topics(id_, label):
         parse(rubric_with(id_, label))
 
 
+@pytest.mark.parametrize(
+    ("description", "match"),
+    [
+        ("Rate how strong a culture fit they are.", "never grade"),
+        ("Ask whether family plans could get in the way.", "protected topic"),
+    ],
+)
+def test_the_description_the_model_reads_is_checked_too(description, match):
+    data = {"signal": [{"id": "teamwork", "label": "Teamwork", "description": description}]}
+    with pytest.raises(RubricError, match=match):
+        parse(data)
+
+
 def test_whole_words_only_so_ordinary_words_pass():
     rubric = parse(rubric_with("stage_presence", "Benefits of the approach", ["managed"]))
     assert rubric.signals[0].id == "stage_presence"

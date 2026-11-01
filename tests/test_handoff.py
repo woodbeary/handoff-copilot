@@ -45,6 +45,21 @@ def test_last_logged_email_to_an_address_off_the_profile(org):
     assert "m.ellery@example.net, which isn't on the profile" in h.flags[0].detail
 
 
+def test_the_stated_address_is_on_file_but_the_last_email_went_to_another(org):
+    ctx = context_for(org, 5101, 7301)
+    ctx.candidate["email_addresses"].append({"value": "taylor.b@example.net", "type": "personal"})
+    h = build_handoff(ctx, transcript_for(7301, "Taylor Brightwater"))
+    assert h.contact == "taylor.b@example.net"
+    mismatch = [f.detail for f in h.flags if f.code == "contact_mismatch"]
+    assert mismatch == [
+        "the candidate stated taylor.b@example.net on the call; the last logged email "
+        "(2026-10-24) went to t.brightwater@example.com. Confirm before the next invite."
+    ]
+    ctx.notes[0]["email_to"] = "taylor.b@example.net"
+    h = build_handoff(ctx, transcript_for(7301, "Taylor Brightwater"))
+    assert "contact_mismatch" not in codes(h)
+
+
 def test_two_profile_addresses_need_a_person_unless_the_last_email_says(org):
     ctx = context_for(org, 5102, 7302)
     ctx.candidate["email_addresses"] = [

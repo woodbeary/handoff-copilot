@@ -2,7 +2,8 @@
 
 An extractor (a model, or the keyword baseline) proposes claims: a signal, a quote and
 a time range. `verify` keeps a claim only if the quote is an exact substring of what
-the candidate said in that time range (whitespace collapsed, nothing else forgiven).
+the candidate said in that time range, within one unbroken turn (whitespace collapsed,
+nothing else forgiven), so a quote can't splice two answers across a question.
 Everything else is dropped with a reason a person can read. A structured-output schema
 can shape the claims; only this check guarantees them.
 """
@@ -11,6 +12,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import re
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass
@@ -81,15 +83,15 @@ class Extractor(Protocol):
 
 
 def _locate(claim: Claim, transcript: Transcript, quote: str) -> tuple[str | None, tuple[int, ...]]:
-    text, segments = transcript.text_between(CANDIDATE, claim.starts, claim.ends)
-    if quote in text:
-        return None, segments
-    other, _ = transcript.text_between(INTERVIEWER, claim.starts, claim.ends)
-    if quote in other:
-        return NOT_CANDIDATE, ()
-    anywhere = squash(" ".join(s.text for s in transcript.lines(CANDIDATE)))
-    if quote in anywhere:
-        return OUTSIDE_RANGE, ()
+    for text, segments in transcript.runs_between(CANDIDATE, claim.starts, claim.ends):
+        if quote in text:
+            return None, segments
+    for text, _ in transcript.runs_between(INTERVIEWER, claim.starts, claim.ends):
+        if quote in text:
+            return NOT_CANDIDATE, ()
+    for text, _ in transcript.runs_between(CANDIDATE, -math.inf, math.inf):
+        if quote in text:
+            return OUTSIDE_RANGE, ()
     return NOT_IN_TRANSCRIPT, ()
 
 

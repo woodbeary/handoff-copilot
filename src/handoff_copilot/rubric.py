@@ -88,7 +88,7 @@ def mentions(text: str, terms: tuple[str, ...]) -> str | None:
 
 
 def _check(signal: Signal) -> None:
-    surface = " ".join([signal.id, signal.label, *signal.look_for])
+    surface = " ".join([signal.id, signal.label, signal.description, *signal.look_for])
     if word := mentions(surface, GRADING_WORDS):
         raise RubricError(
             f"signal {signal.id!r} mentions {word!r}: signals name evidence to listen for, "

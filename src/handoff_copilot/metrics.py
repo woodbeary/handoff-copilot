@@ -3,8 +3,9 @@
 Count these before the copilot exists, then during shadow, then after:
 
 * feedback filed within 24 hours of an interview ending. Harvest's reference says owed
-  feedback is an `interviewers` row with a `user_id` and no `scorecard_id`; there is no
-  webhook for a submitted scorecard, so this comes from polling.
+  feedback is an `interviewers` row with a `user_id` and no `scorecard_id`, once the
+  interview is `awaiting_feedback` or `received`; there is no webhook for a submitted
+  scorecard, so this comes from polling.
 * screens that ended with nothing later on the calendar for an application still in
   process: the candidate nobody followed up with.
 * drafts confirmed in the ATS by reading them back, not jobs that ran.

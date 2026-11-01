@@ -37,7 +37,7 @@ flowchart LR
 ```bash
 python -m pip install -e ".[dev]"
 handoff-copilot demo        # the whole walk-through on the synthetic org
-pytest                      # 115 tests
+pytest                      # 120 tests
 ```
 
 The demo runs three synthetic screens in shadow, shows the promotion check refusing to promote with no human labels, then runs screen 7301 in visible mode, where a person submits both drafts. Excerpts from its output:
@@ -49,6 +49,7 @@ The demo runs three synthetic screens in shadow, shows the promotion check refus
    application 5103: 0 quotes kept, flags ['promise_without_schedule'], no model step (AI opt-out honored)
    Harvest writes during shadow: 0
 
+3. Visible, after a person promotes it. Screen 7301, the stand-in model answer
    What the model was shown (redacted before the prompt):
      [142.3-158.0] candidate: Please use my personal email, t***@e***.net. The other address on my application is an old school account I don't check anymore.
 
@@ -64,8 +65,11 @@ The demo runs three synthetic screens in shadow, shows the promotion check refus
      [screened_by_non_owner] user #35 ran the screen and the recruiter of record is user #31. This note is the handoff.
      [promise_without_schedule] a next step was promised at 02:38 and no later interview is scheduled or waiting to be scheduled
 
+4. A person (user #35) reads both drafts and submits them as private notes
    scorecard draft hc-59d387678382: the reply was lost, the read-back found it: delivered as note #8005
    copies of that note in Greenhouse: 1
+
+5. Coverage from Greenhouse timestamps (demo clock 2026-10-29T18:00:00Z)
    Feedback within 24 h: 2 of 5 due (1 late, 2 still missing)
    Screens with nothing next on the calendar after 48 h: 1 of 3 (applications [5101])
 ```
@@ -78,17 +82,17 @@ Other commands: `handoff-copilot coverage`, `handoff-copilot gate REVIEWS.jsonl`
 
 **The handoff check runs first, and it uses no model.** At the end of a screen it compares what the candidate said on the call with the profile's addresses and the address on the latest logged email (`email_to` on `EMAIL` notes). It compares the person who ran the screen with the application's recruiter and coordinator, and the next step the interviewer promised with what's on the calendar. Each disagreement becomes a flag a person resolves: `contact_mismatch`, `contact_ambiguous`, `contact_missing`, `no_owner`, `screened_by_non_owner`, `promise_without_schedule`, `no_next_step`. It never edits the profile and never picks between two addresses itself.
 
-**Quotes are checked, not trusted.** An extractor proposes `{signal, quote, starts, ends}`. `verify` keeps a claim only if the quote is an exact substring of the candidate's own lines in that time range. Whitespace is the only thing forgiven, not case and not paraphrase. Everything else is dropped with a reason the recruiter sees counted: `not_in_transcript`, `not_candidate_speech`, `outside_time_range`, `unknown_signal`, `too_short`, `too_long`, `protected_topic`, `duplicate`, `over_limit`. A schema can shape a model's output; only this check guarantees it.
+**Quotes are checked, not trusted.** An extractor proposes `{signal, quote, starts, ends}`. `verify` keeps a claim only if the quote is an exact substring of the candidate's own lines in that time range, within one unbroken turn, so it can't splice two answers across a question. Whitespace is the only thing forgiven, not case and not paraphrase. Everything else is dropped with a reason the recruiter sees counted: `not_in_transcript`, `not_candidate_speech`, `outside_time_range`, `unknown_signal`, `too_short`, `too_long`, `protected_topic`, `duplicate`, `over_limit`. A schema can shape a model's output; only this check guarantees it.
 
-**Nothing grades.** The scorecard draft has no rating field, and the connector never asks Greenhouse for `candidate_rating`. The rubric loader refuses signals that grade or decide (`rating`, `score`, `recommend`, `fit`, `risk` and more) and signals about protected topics (age, citizenship, family, salary history and more). Eligibility belongs to the application questions and HR, not to a model listening to a call. The copilot, the connector and the Harvest client have no method that rejects, moves, advances, hires or rates, and a test checks that.
+**Nothing grades.** The scorecard draft has no rating field, and the connector never asks Greenhouse for `candidate_rating`. The rubric loader reads each signal's id, label, keywords and the description the model is given, and refuses signals that grade or decide (`rating`, `score`, `recommend`, `fit`, `risk` and more) and signals about protected topics (age, citizenship, family, salary history and more). Eligibility belongs to the application questions and HR, not to a model listening to a call. The copilot, the connector and the Harvest client have no method that rejects, moves, advances, hires or rates, and a test checks that.
 
-**The model sees as little as possible.** No transcript is read without recorded consent from every party on the call (California requires all-party consent under Penal Code 632). A candidate's AI opt-out for the job (`GET /v3/ai_opt_out_statuses`) means no model call at all. The handoff note is still drafted, because it needs none. Harvest is asked for named `fields` only, and anything extra the server sends is dropped. Before any prompt, emails (written or spoken, as in "taylor dot b at example dot net"), phone numbers and every known name are masked, and speakers appear as `candidate` and `interviewer`.
+**The model sees as little as possible.** No transcript is read without recorded consent from every party on the call (California requires all-party consent under Penal Code 632). A candidate's AI opt-out for the job (`GET /v3/ai_opt_out_statuses`) means no model call at all. Greenhouse records that opt-out for its own AI review (Talent Matching), and the copilot honors it for its model step too. The handoff note is still drafted, because it needs none. An org without Talent Matching has no opt-out to read (Harvest refuses the request), so there the consent recorded for the call is the only gate before the model. Harvest is asked for named `fields` only, and anything extra the server sends is dropped. Before any prompt, emails (written or spoken, as in "taylor dot b at example dot net"), phone numbers and every known name are masked, and speakers appear as `candidate` and `interviewer`.
 
 **A person submits, once.** In visible mode the recruiter edits a draft and submits it, or discards it. It lands as a private note (`visibility: private`) authored by that person, with a `ref:` footer. Harvest documents no idempotency key for notes, so the connector looks for that ref before posting. When a reply is lost it reads the notes back instead of posting again, and it calls a draft delivered only once the read-back finds it.
 
 **Shadow first, then visible drafts.** In shadow, drafts go to a local store with contacts and names masked. Nothing is shown and nothing reaches Greenhouse. A person lays the drafts beside what recruiters actually filed and labels each quote useful or wrong, each missed evidence line, and each flag real or false. `promotion_check` recommends visible drafts only when enough screens are reviewed and the Wilson lower bounds of quote precision, evidence recall and flag precision all clear their bars. The bars in `Bars` are placeholders to agree with TA ops.
 
-**Measure coverage and what lands.** `metrics` computes the baseline from Greenhouse's own timestamps. Feedback filed within 24 hours of an interview ending uses Harvest's documented rule: owed feedback is an `interviewers` row with a `user_id` and no `scorecard_id`. There is no webhook for a submitted scorecard, so this comes from polling. Screens with nothing next on the calendar after 48 hours count candidates nobody followed up with. Drafts are counted as confirmed by read-back, not by jobs run.
+**Measure coverage and what lands.** `metrics` computes the baseline from Greenhouse's own timestamps. Feedback filed within 24 hours of an interview ending uses Harvest's documented rule: owed feedback is an `interviewers` row with a `user_id` and no `scorecard_id`, once the interview is `awaiting_feedback` or `received`. There is no webhook for a submitted scorecard, so this comes from polling. Screens with nothing next on the calendar after 48 hours count candidates nobody followed up with. Drafts are counted as confirmed by read-back, not by jobs run.
 
 **Every step leaves a receipt.** The audit log is SQLite with triggers that refuse `UPDATE` and `DELETE`, and each row's hash covers the row before it. Rows hold the actor, the action, record ids, the field names returned and a prompt hash, never field values. `append` refuses anything that looks like an email address or phone number.
 
@@ -109,9 +113,9 @@ Another ATS plugs in by implementing `screen_context` and `post_private_note` (`
 
 ## What was tested
 
-- **115 tests** (pytest), passing on Python 3.11, 3.12 and 3.13, with ruff lint and format checks. CI runs them, plus the demo and a detect-secrets scan, on every push.
+- **120 tests** (pytest), passing on Python 3.11, 3.12 and 3.13, with ruff lint and format checks. CI runs them, plus the demo and a detect-secrets scan, on every push.
 - They cover:
-  - every drop rule;
+  - every drop rule, including a quote spliced across the interviewer's question;
   - redaction of written and spoken addresses, and a prompt checked to hold no name, address or number from the synthetic profile;
   - each handoff flag;
   - token issue, renewal and the 401 retry;
@@ -134,8 +138,8 @@ Another ATS plugs in by implementing `screen_context` and `post_private_note` (`
 - **Not tested against a Greenhouse account or sandbox.** It is tested against a fake written from the public docs. These are documented but unverified on a live org:
   - whether `email_to` is filled on logged emails;
   - how Notetaker labels speakers;
-  - whether a `sub` token inherits that recruiter's permissions;
   - how `private` notes show to the hiring team.
+- **No per-recruiter access control.** Harvest v3's docs say every list endpoint needs a Site Admin, so a token minted with `sub` can't stand in for one recruiter's view. Limiting each recruiter to their own jobs (through `GET /v3/user_job_permissions`) isn't built.
 - **Not used by a recruiter yet.** There are no adoption, accuracy, time-saved or latency numbers. The keyword baseline and the hand-written stand-in answer exercise the rules; they measure nothing about a model.
 - **No audio capture.** It reads Notetaker-format transcripts (`{entries: [{speaker, text, starts, ends}]}`, seconds). Speaker roles come from the source's labels matched to the candidate's name, or a person sets them. There is no diarization.
 - **No scorecard writes.** Whether an API-created draft scorecard opens in the interviewer's own form is unverified, so the scorecard draft lands as a private note and the interviewer writes the scorecard.
@@ -151,7 +155,7 @@ Looking back, the prototype got two things wrong. Its handoff note summarized th
 
 The rest comes from running my own funnel in 2026. In my junk-removal company's lead system, about 3% of qualified leads ever got a decision from a person, with a median wait of about 2 hours. A reminder job reported success every minute from Sep 17 while sending nothing. A recruiting funnel breaks in the same places: coverage, follow-up and handoffs. So this measures feedback filed within 24 hours and screens with nothing next on the calendar, and it confirms each draft by reading it back.
 
-When I put an agent on those leads in October 2026, it ran in shadow first (Oct 9). It went live only behind a kill switch that was off by default (Oct 11), and its rails could only make a decision more cautious. The posture here is the same: shadow, then visible drafts, and no mode where it acts alone.
+When I put an agent on those leads in October 2026, it ran in shadow first (Oct 9). Live approvals shipped on Oct 11 behind a kill switch that was off by default, and its rails could only make a decision more cautious. The posture here is the same: shadow, then visible drafts, and no mode where it acts alone.
 
 ## Next
 

@@ -110,6 +110,12 @@ def test_a_quote_may_span_consecutive_candidate_lines(rubric):
     assert kept[0].segments == (0, 1)
 
 
+def test_a_quote_cannot_splice_two_answers_across_a_question(t7301, rubric):
+    spliced = "fixed it with a resync step. I ran it on the bench for three days"
+    kept, dropped = verify([Claim("debugging_hard_failures", spliced, 22.4, 74.0)], t7301, rubric)
+    assert kept == [] and reasons(dropped) == ["not_in_transcript"]
+
+
 def test_the_keyword_baseline_only_quotes_the_candidate(t7301, rubric):
     extraction = KeywordExtractor().extract(t7301, rubric)
     kept, dropped = verify(extraction.claims, t7301, rubric)

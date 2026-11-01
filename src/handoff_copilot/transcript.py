@@ -41,10 +41,27 @@ class Transcript:
     def lines(self, role: str) -> list[Segment]:
         return [s for s in self.segments if self.role_of(s) == role]
 
-    def text_between(self, role: str, starts: float, ends: float) -> tuple[str, tuple[int, ...]]:
-        """Whitespace-collapsed text of `role`'s segments that overlap [starts, ends]."""
-        hits = [s for s in self.lines(role) if s.ends >= starts and s.starts <= ends]
-        return squash(" ".join(s.text for s in hits)), tuple(s.index for s in hits)
+    def runs_between(
+        self, role: str, starts: float, ends: float
+    ) -> list[tuple[str, tuple[int, ...]]]:
+        """`role`'s segments that overlap [starts, ends], one text per unbroken run.
+
+        A run ends wherever another role speaks, so a quote can span one speaker's
+        consecutive lines but never splice two answers across someone else's turn.
+        Text is whitespace-collapsed.
+        """
+        runs: list[list[Segment]] = [[]]
+        for s in self.segments:
+            if self.role_of(s) != role:
+                if runs[-1]:
+                    runs.append([])
+            elif s.ends >= starts and s.starts <= ends:
+                runs[-1].append(s)
+        return [
+            (squash(" ".join(s.text for s in run)), tuple(s.index for s in run))
+            for run in runs
+            if run
+        ]
 
     def with_text(self, rewrite) -> Transcript:
         """A copy with every segment's text passed through `rewrite` (used for redaction)."""
