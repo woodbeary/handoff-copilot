@@ -1,0 +1,31 @@
+# The signals a team listens for on a recruiter screen. Each one names evidence, not a
+# judgment: the loader refuses grading words (rating, score, recommend, fit, risk...) and
+# protected topics. `look_for` feeds only the keyword baseline; a model reads `description`.
+
+[rubric]
+name = "Recruiter screen: Flight Software Engineer (synthetic)"
+version = "2026-11-01"
+
+[[signal]]
+id = "hands_on_ownership"
+label = "Hands-on ownership"
+description = "Something the candidate personally built, wrote or shipped, in their own words."
+look_for = ["I wrote", "I built", "I owned", "I shipped"]
+
+[[signal]]
+id = "debugging_hard_failures"
+label = "Debugging a hard failure"
+description = "How they found and fixed a failure that was hard to see, and how they knew the fix held."
+look_for = ["traced", "root cause", "debugged", "bisected", "fixed it"]
+
+[[signal]]
+id = "works_with_users"
+label = "Works with the people who use it"
+description = "Time spent with the operators, technicians or test crews who use what they build."
+look_for = ["technicians", "operators", "test crew", "sat with"]
+
+[[signal]]
+id = "why_this_role"
+label = "Why this role, in their words"
+description = "What the candidate says they want from this role."
+look_for = ["I want to", "draws me", "why I applied"]

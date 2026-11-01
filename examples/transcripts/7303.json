@@ -1,0 +1,10 @@
+{
+  "entries": [
+    {"speaker": "Jordan Pike", "text": "Hi Jamie, thanks for your time. This call is transcribed for my notes; is that okay?", "starts": 0.0, "ends": 5.0},
+    {"speaker": "Jamie Okafor", "text": "Yes, that's okay.", "starts": 5.3, "ends": 6.5},
+    {"speaker": "Jordan Pike", "text": "Tell me about your current work.", "starts": 6.8, "ends": 9.0},
+    {"speaker": "Jamie Okafor", "text": "I write firmware for robot arms, mostly the safety interlocks, and I built the test rig we use to check them.", "starts": 9.3, "ends": 30.0},
+    {"speaker": "Jordan Pike", "text": "Thanks. You'll hear from us by Thursday about next steps.", "starts": 30.4, "ends": 36.0},
+    {"speaker": "Jamie Okafor", "text": "Great, thank you.", "starts": 36.3, "ends": 38.0}
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "_comment": "Written by hand to stand in for a model's answer on screen 7301. It is not model output. It mixes five exact quotes with one claim for each drop rule, so the demo shows every way a claim gets dropped.",
+  "claims": [
+    {"signal": "hands_on_ownership", "quote": "At my last job I wrote the telemetry decoder for our test stand myself.", "starts": 22.4, "ends": 48.0},
+    {"signal": "debugging_hard_failures", "quote": "I traced it to the clock on the logging board and fixed it with a resync step.", "starts": 22.4, "ends": 48.0},
+    {"signal": "debugging_hard_failures", "quote": "I ran it on the bench for three days and compared every frame against a reference recorder.", "starts": 53.3, "ends": 74.0},
+    {"signal": "works_with_users", "quote": "I sat with them during two campaigns, and they asked for a plain-text summary at the end of each run, so I added one.", "starts": 80.4, "ends": 104.0},
+    {"signal": "why_this_role", "quote": "I want to work on software that flies, close to the hardware, with the people who test it.", "starts": 109.3, "ends": 130.0},
+    {"signal": "works_with_users", "quote": "The technicians said I was the best engineer they had worked with.", "starts": 80.4, "ends": 104.0},
+    {"signal": "hands_on_ownership", "quote": "Tell me about something you built yourself, start to finish.", "starts": 16.8, "ends": 22.0},
+    {"signal": "debugging_hard_failures", "quote": "When the timestamps drifted by a few milliseconds per hour", "starts": 109.3, "ends": 130.0},
+    {"signal": "why_this_role", "quote": "I'd like to stay in Orange County, my kids are in school here.", "starts": 134.3, "ends": 139.0},
+    {"signal": "culture_fit", "quote": "That is the part of my job I like most.", "starts": 109.3, "ends": 130.0}
+  ]
+}

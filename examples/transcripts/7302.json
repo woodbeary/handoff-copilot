@@ -1,0 +1,14 @@
+{
+  "entries": [
+    {"speaker": "Casey Lindqvist", "text": "Hi Morgan, thanks for joining. This call is transcribed for my notes; is that all right?", "starts": 0.0, "ends": 5.5},
+    {"speaker": "Morgan Ellery", "text": "Sure, that's fine.", "starts": 5.8, "ends": 7.0},
+    {"speaker": "Casey Lindqvist", "text": "Walk me through a system you owned.", "starts": 7.3, "ends": 10.0},
+    {"speaker": "Morgan Ellery", "text": "I owned the motor controller firmware on our last vehicle. I built the fault logger and debugged a brownout reset that only showed up below freezing.", "starts": 10.4, "ends": 34.0},
+    {"speaker": "Casey Lindqvist", "text": "How did you find it?", "starts": 34.4, "ends": 36.0},
+    {"speaker": "Morgan Ellery", "text": "We traced it to a capacitor that lost capacity in the cold, so the supply sagged during startup. A firmware delay covered it until the board was respun.", "starts": 36.3, "ends": 60.0},
+    {"speaker": "Casey Lindqvist", "text": "Why this role?", "starts": 60.4, "ends": 62.0},
+    {"speaker": "Morgan Ellery", "text": "I want to keep working close to hardware, and I like being in the room when it gets tested.", "starts": 62.3, "ends": 75.0},
+    {"speaker": "Casey Lindqvist", "text": "Great. You'll hear from me by Wednesday about the hiring manager screen, and it's already on the calendar for Friday.", "starts": 75.4, "ends": 85.0},
+    {"speaker": "Morgan Ellery", "text": "Sounds good, thanks.", "starts": 85.3, "ends": 87.0}
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "entries": [
+    {"speaker": "Casey Lindqvist", "text": "Hi Taylor, thanks for making time. This is the recruiter screen for the flight software role, about thirty minutes.", "starts": 0.0, "ends": 6.2},
+    {"speaker": "Taylor Brightwater", "text": "Thanks, Casey. Happy to be here.", "starts": 6.5, "ends": 9.0},
+    {"speaker": "Casey Lindqvist", "text": "Before we start: this call is transcribed for my notes. Is that okay with you?", "starts": 9.2, "ends": 15.0},
+    {"speaker": "Taylor Brightwater", "text": "Yes, that's fine.", "starts": 15.2, "ends": 16.4},
+    {"speaker": "Casey Lindqvist", "text": "Great. Tell me about something you built yourself, start to finish.", "starts": 16.8, "ends": 22.0},
+    {"speaker": "Taylor Brightwater", "text": "At my last job I wrote the telemetry decoder for our test stand myself. When the timestamps drifted by a few milliseconds per hour, I traced it to the clock on the logging board and fixed it with a resync step.", "starts": 22.4, "ends": 48.0},
+    {"speaker": "Casey Lindqvist", "text": "How did you know the fix held?", "starts": 48.5, "ends": 53.0},
+    {"speaker": "Taylor Brightwater", "text": "I ran it on the bench for three days and compared every frame against a reference recorder. After that I shipped it to the other two test stands.", "starts": 53.3, "ends": 74.0},
+    {"speaker": "Casey Lindqvist", "text": "Who used the decoder day to day?", "starts": 74.5, "ends": 80.0},
+    {"speaker": "Taylor Brightwater", "text": "The test technicians did. I sat with them during two campaigns, and they asked for a plain-text summary at the end of each run, so I added one.", "starts": 80.4, "ends": 104.0},
+    {"speaker": "Casey Lindqvist", "text": "What draws you to this team?", "starts": 104.5, "ends": 109.0},
+    {"speaker": "Taylor Brightwater", "text": "I want to work on software that flies, close to the hardware, with the people who test it. That is the part of my job I like most.", "starts": 109.3, "ends": 130.0},
+    {"speaker": "Casey Lindqvist", "text": "Any constraints on location I should pass along?", "starts": 130.4, "ends": 134.0},
+    {"speaker": "Taylor Brightwater", "text": "I'd like to stay in Orange County, my kids are in school here.", "starts": 134.3, "ends": 139.0},
+    {"speaker": "Casey Lindqvist", "text": "Understood. What's the best way to reach you?", "starts": 139.4, "ends": 142.0},
+    {"speaker": "Taylor Brightwater", "text": "Please use my personal email, taylor dot b at example dot net. The other address on my application is an old school account I don't check anymore.", "starts": 142.3, "ends": 158.0},
+    {"speaker": "Casey Lindqvist", "text": "Got it. Next step: I'll set up the hiring manager screen for Friday and send the invite to that address.", "starts": 158.4, "ends": 170.0},
+    {"speaker": "Taylor Brightwater", "text": "Perfect, thank you.", "starts": 170.3, "ends": 173.0}
+  ]
+}
