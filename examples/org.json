@@ -1,0 +1,53 @@
+{
+  "_comment": "Synthetic Greenhouse org in Harvest v3 field names. Every person, address and number is invented: example.com/.org/.net domains and 555-01xx phone numbers. The demo clock is 2026-10-29T18:00:00Z.",
+  "applications": [
+    {"id": 5101, "candidate_id": 4201, "job_id": 801, "recruiter_id": 31, "coordinator_id": 32, "status": "in_process", "stage_name": "Recruiter Screen", "source_id": 12},
+    {"id": 5102, "candidate_id": 4202, "job_id": 801, "recruiter_id": 35, "coordinator_id": 32, "status": "in_process", "stage_name": "Hiring Manager Screen", "source_id": 12},
+    {"id": 5103, "candidate_id": 4203, "job_id": 801, "recruiter_id": 31, "coordinator_id": 32, "status": "in_process", "stage_name": "Recruiter Screen", "source_id": 14},
+    {"id": 5104, "candidate_id": 4204, "job_id": 801, "recruiter_id": 31, "coordinator_id": 32, "status": "in_process", "stage_name": "Technical Interview", "source_id": 12},
+    {"id": 5105, "candidate_id": 4205, "job_id": 801, "recruiter_id": 35, "coordinator_id": 32, "status": "rejected", "stage_name": "Recruiter Screen", "source_id": 14}
+  ],
+  "candidates": [
+    {"id": 4201, "first_name": "Taylor", "last_name": "Brightwater", "preferred_name": null, "company": "Synthetic Test Labs", "title": "Software Engineer", "email_addresses": [{"value": "t.brightwater@example.com", "type": "personal"}], "phone_numbers": [{"value": "(714) 555-0142", "type": "mobile"}], "addresses": [{"value": "100 Example Way, Irvine, CA", "type": "home"}]},
+    {"id": 4202, "first_name": "Morgan", "last_name": "Ellery", "preferred_name": null, "company": "Placeholder Avionics", "title": "Embedded Engineer", "email_addresses": [{"value": "morgan.ellery@example.org", "type": "personal"}], "phone_numbers": [{"value": "(949) 555-0187", "type": "mobile"}], "addresses": []},
+    {"id": 4203, "first_name": "Jamie", "last_name": "Okafor", "preferred_name": null, "company": "Sample Robotics", "title": "Firmware Engineer", "email_addresses": [{"value": "jamie.okafor@example.net", "type": "personal"}], "phone_numbers": [], "addresses": []},
+    {"id": 4204, "first_name": "Riley", "last_name": "Vance", "preferred_name": null, "company": "Demo Dynamics", "title": "Software Engineer", "email_addresses": [{"value": "riley.vance@example.com", "type": "work"}], "phone_numbers": [], "addresses": []},
+    {"id": 4205, "first_name": "Devon", "last_name": "Achterberg", "preferred_name": null, "company": "Mock Systems", "title": "Test Engineer", "email_addresses": [{"value": "devon.a@example.org", "type": "personal"}], "phone_numbers": [], "addresses": []}
+  ],
+  "interviews": [
+    {"id": 7301, "application_id": 5101, "job_id": 801, "starts_at": "2026-10-27T17:00:00Z", "ends_at": "2026-10-27T17:30:00Z", "status": "awaiting_feedback", "location": null},
+    {"id": 7302, "application_id": 5102, "job_id": 801, "starts_at": "2026-10-26T16:00:00Z", "ends_at": "2026-10-26T16:30:00Z", "status": "complete", "location": null},
+    {"id": 7305, "application_id": 5102, "job_id": 801, "starts_at": "2026-10-30T18:00:00Z", "ends_at": "2026-10-30T18:45:00Z", "status": "scheduled", "location": null},
+    {"id": 7303, "application_id": 5103, "job_id": 801, "starts_at": "2026-10-27T20:00:00Z", "ends_at": "2026-10-27T20:30:00Z", "status": "awaiting_feedback", "location": null},
+    {"id": 7304, "application_id": 5104, "job_id": 801, "starts_at": "2026-10-25T15:00:00Z", "ends_at": "2026-10-25T15:45:00Z", "status": "complete", "location": null},
+    {"id": 7306, "application_id": 5104, "job_id": 801, "starts_at": null, "ends_at": null, "status": "to_be_scheduled", "location": null},
+    {"id": 7307, "application_id": 5105, "job_id": 801, "starts_at": "2026-10-20T16:00:00Z", "ends_at": "2026-10-20T16:30:00Z", "status": "complete", "location": null}
+  ],
+  "interviewers": [
+    {"id": 9301, "interview_id": 7301, "user_id": 35, "scorecard_id": null, "email": "user35@example.com", "response_status": "accepted"},
+    {"id": 9302, "interview_id": 7302, "user_id": 35, "scorecard_id": 6102, "email": "user35@example.com", "response_status": "accepted"},
+    {"id": 9305, "interview_id": 7305, "user_id": 40, "scorecard_id": null, "email": "user40@example.com", "response_status": "accepted"},
+    {"id": 9303, "interview_id": 7303, "user_id": 31, "scorecard_id": null, "email": "user31@example.com", "response_status": "accepted"},
+    {"id": 9304, "interview_id": 7304, "user_id": 41, "scorecard_id": 6104, "email": "user41@example.com", "response_status": "accepted"},
+    {"id": 9307, "interview_id": 7307, "user_id": 35, "scorecard_id": 6107, "email": "user35@example.com", "response_status": "accepted"}
+  ],
+  "scorecards": [
+    {"id": 6102, "application_id": 5102, "interviewer_id": 35, "submitter_id": 35, "status": "complete", "interviewed_at": "2026-10-26T16:00:00Z", "submitted_at": "2026-10-26T19:10:00Z", "candidate_rating": "yes", "notes": "Synthetic takeaways."},
+    {"id": 6104, "application_id": 5104, "interviewer_id": 41, "submitter_id": 41, "status": "complete", "interviewed_at": "2026-10-25T15:00:00Z", "submitted_at": "2026-10-27T09:00:00Z", "candidate_rating": "mixed", "notes": "Synthetic takeaways."},
+    {"id": 6107, "application_id": 5105, "interviewer_id": 35, "submitter_id": 35, "status": "complete", "interviewed_at": "2026-10-20T16:00:00Z", "submitted_at": "2026-10-20T20:00:00Z", "candidate_rating": "no", "notes": "Synthetic takeaways."}
+  ],
+  "notes": [
+    {"id": 8001, "candidate_id": 4201, "application_id": 5101, "type": "EMAIL", "subject": "Recruiter screen", "body": "Here is the invite for your recruiter screen on Tuesday.", "email_from": "user31@example.com", "email_to": "t.brightwater@example.com", "created_at": "2026-10-24T16:02:00Z", "user_id": 31, "visibility": "publicly_visible"},
+    {"id": 8002, "candidate_id": 4202, "application_id": 5102, "type": "EMAIL", "subject": "Recruiter screen", "body": "Here is the invite for your recruiter screen on Monday.", "email_from": "user35@example.com", "email_to": "morgan.ellery@example.org", "created_at": "2026-10-22T15:30:00Z", "user_id": 35, "visibility": "publicly_visible"},
+    {"id": 8003, "candidate_id": 4203, "application_id": 5103, "type": "NOTE", "subject": null, "body": "Referred by a synthetic employee.", "email_from": null, "email_to": null, "created_at": "2026-10-21T18:00:00Z", "user_id": 31, "visibility": "privately_visible"}
+  ],
+  "interview_media": [
+    {"id": 9701, "interview_id": 7301, "application_id": 5101, "video_url": null, "transcript_url": "https://media.synthetic.invalid/transcripts/7301.json"},
+    {"id": 9702, "interview_id": 7302, "application_id": 5102, "video_url": null, "transcript_url": "https://media.synthetic.invalid/transcripts/7302.json"},
+    {"id": 9703, "interview_id": 7303, "application_id": 5103, "video_url": null, "transcript_url": "https://media.synthetic.invalid/transcripts/7303.json"}
+  ],
+  "ai_opt_out_statuses": [
+    {"id": 9801, "job_id": 801, "candidate_ids": [4203], "opted_out": true, "feature": "talent_matching", "confirmed_at": "2026-10-20T12:00:00Z"},
+    {"id": 9802, "job_id": 801, "candidate_ids": [4202], "opted_out": false, "feature": "talent_matching", "confirmed_at": "2026-10-19T12:00:00Z"}
+  ]
+}
